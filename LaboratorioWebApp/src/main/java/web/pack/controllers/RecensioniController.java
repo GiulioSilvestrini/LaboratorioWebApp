@@ -25,4 +25,49 @@ public class RecensioniController {
 		return recensioniRepository.findAll();
 	}
 
+    @GetMapping("/recensioni/{recensioniId}")
+	Optional<recensioni> getNotes(@PathVariable Long recensioniId)
+	{
+//		Optional<recensioni> opt = recensioniRepository.findById(recensioniId);
+//		
+//		recensioni n = opt.orElseThrow();
+		return recensioniRepository.findById(recensioniId);
+		
+	}
+
+    //CREATE
+	@PostMapping("/recensioni/add")
+	Recensioni createRecensioni(@RequestBody Recensioni newRecensioni)
+	{
+		return recensioniRepository.save(newRecensioni);
+	}
+
+    //UPDATE
+	@PutMapping("recensioni/{recensioniId}/update")
+	Recensioni updateRecensioni(@PathVariable Long recensioniId, @RequestBody Recensioni recensioniDto)
+	{
+		//provare anche con orelsethrow
+		Recensioni n = recensioniRepository.findById(recensioniId).get();
+		
+		n.setTitle(recensioniDto.getTitle());
+		n.setContent(recensioniDto.getContent());
+		
+		return recensioniRepository.save(n);
+	}
+
+    //DELETE
+	@DeleteMapping("recensioni/{recensioniId}/delete")
+	String deleteRecensioni(@PathVariable Long recensioniId) {
+		Recensioni n = recensioniRepository.findById(recensioniId).get();
+		
+		recensioniRepository.delete(n);
+		
+		return "eliminazione avvenuta";
+	}
+
+ // glie dovemo cambia nome!!
+    @GetMapping("/form")
+	public String getFormPage() {
+		return "form"; // Assuming "form" is the name of your HTML file
+	}
 }
