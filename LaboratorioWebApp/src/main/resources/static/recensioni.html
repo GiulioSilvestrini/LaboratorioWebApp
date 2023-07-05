@@ -15,89 +15,188 @@
 
 
     <style>
-        @media screen and (max-width: 600px) {}
+            @media screen and (max-width: 600px){
+            
+            }
+            @media screen and (min-width: 601px){
+                
+            }
+            body{
+                background: linear-gradient(90deg, rgba(241,255,122,1) 0%, rgba(218,177,255,1) 100%);
+            }
+            article{
+                align-items: center;
+                margin-left: auto;
+                margin-right: auto;
+                margin: 4rem;
+            }
+            section img{
+                width: 20%;
+                
+            }
+            
+            section{
+                padding: 3rem;
+                display: flex;
+                justify-content: center;
+                
+            }
+            form{
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+            .lasciarecensione{
+                border: solid 2px black;
+                border-radius: 20px;
+                padding: 2rem;
+                background: linear-gradient(90deg, rgba(218,177,255,1) 0%, rgba(241,255,122,1) 100%);;
+                margin-bottom: 50px;
 
-        @media screen and (min-width: 601px) {}
-
-        body {
-            background: linear-gradient(90deg, rgba(241, 255, 122, 1) 0%, rgba(218, 177, 255, 1) 100%);
-        }
-
-        article {
-            align-items: center;
-            margin-left: auto;
-            margin-right: auto;
-            margin: 4rem;
-        }
-
-        section img {
-            width: 20%;
-
-        }
-
-        section {
-            padding: 3rem;
-            display: flex;
-            justify-content: center;
-
-        }
-
-        #lasciarecensione {
-            border: solid 2px black;
-            border-radius: 20px;
-            padding: 2rem;
-
-        }
-
-        #casellarecensione {
-            width: auto;
-        }
-    </style>
+                
+            }
+            #invia{display: flex;
+                align-items: flex-start;
+                height: 50px;
+                width: 100px;
+                padding: 10px;
+                justify-content: space-around;
+                margin: 0.5rem;
+                border-radius: 7px;
+                background-color: rgb(248, 202, 133);
+            }
+            #casellarecensione{
+ 
+                height: 150px;
+            }
+            .input{
+                width: 70%;
+                margin: 00.5rem;
+                border-radius: 7px;
+            }
+            .card{
+                margin: 1rem;
+                border: solid 1px black;
+            }
+            
+            bottone:hover {
+            	cursor : pointer;
+            }
+        </style>
 
 </head>
 
-<body>
+<body onload ="visualizzaRecensioniDiv()">
+        
+        <header>
+            <nav></nav>
+        </header>
 
-    <header>
-        <nav></nav>
-    </header>
+        <section>
+            <a href="index.html"><img src="img/2.png" alt=""></a>
+        </section>
 
-    <section>
-        <a href="index.html"><img src="img/2.png" alt=""></a>
-    </section>
-
-    <article>
-        <div id="lasciarecensione"> <!-- lascia una recensione-->
-            <h1>Lascia un recensione!</h1>
-            <form action="">
-                <input id="casellarecensione" type="text" maxlength="500">
-                <input type="submit" value="Submit">
-            </form>
-
-        </div>
-        <div> <!-- visualizzazione recensioni -->
-
-        </div>
-    </article>
+        <article> 
+            <div class="lasciarecensione"> <!-- lascia una recensione-->
+                <h1>Lascia un recensione!</h1>
+                <form action="" method="get" id="forma">
+                    <input class="input" type="text"  id="title" placeholder="Inserisci il tuo nome">
+                    <input class="input" type="text"  id="casellarecensione" placeholder="inserisci la tua recensione"   maxlength="500">
+                 	<button id = "invia" type="submit">Submit</button>
+                </form>
+            </div>
+            
+				
+            <div class="lasciarecensione"> <!-- visualizzazione recensioni -->
+                <h1>Recensioni</h1>
+                <div id = "lista">
+                 
+                </div>
+                
+            </div>
+            
+        </article>
 
     <script>
 
 
-        var n = 1;
-        function visualizzaRecensioni() {
-            console.log("Sono nella funzione");
-            fetch("http://localhost:8080/Recensioni")
-                .then(res => res.json())
-                .then(listaRecensioni => {
-                    s = ""
-                    for (Recensione of listaRecensioni) {
-                        s += `<li>${Recensione.title} ${Recensione.content} </li>`;
-                    }
-                    lista.innerHTML = s;
-                });
+        function visualizzaRecensioniDiv(){
+            console.log("Vai div!");
+            console
+            fetch("http://localhost:8080/recensioni")
+            .then(res => res.json())
+            .then(listaRecensioni => 
+            {
+                console.log(listaRecensioni);
+				s = ""
+				for (recensione of listaRecensioni){
+					s += `<div class="card">
+						<div class="d-flex justify-content-end">
+						<button id="bottone" class="btn btn-sm position-absolute pt-0" onclick="elimina(${recensione.id})">x</button>
+						</div>
+						<h5 class="card-title ms-1 mt-1"> ${recensione.title} </h5> 
+						<p class="testo-card ms-1 mt-1"> ${recensione.content} </p>
+							</div> `;
+				}
+				lista.innerHTML = s;
+			});
+        }
+        let formina = document.getElementById("forma");
+        formina.addEventListener("submit", (e) => {
+				e.preventDefault();
+				
+				var titolo = document.getElementById('title');
+				var contenuto = document.getElementById('casellarecensione');
+				console.log(typeof titolo.value)
+				console.log(typeof contenuto.value)
+				
+				
+	            var newRecensione = {"title": titolo.value, "content": contenuto.value,"like": 0};
+				console.log(newRecensione.value)
+
+
+	            fetch("http://localhost:8080/recensioni", 
+	            {
+	                method: 'POST',
+	                headers: {
+	                    "Content-Type": "application/json"
+	                },
+	                body: JSON.stringify(newRecensione)
+	            }
+	            )
+	            .then(visualizzaRecensioniDiv());
+			} )
+ 	/*	function inviaRecensione(){
+ 			console.log("Nuova recensione!");
+ 			
+            var newRecensione = {"title": titolo.value, "content": contenuto.value,"like": 0};
+
+
+            fetch("http://localhost:8080/recensioni", 
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newRecensione)
+            }
+            )
+            .then(visualizzaRecensioniDiv());
+        }	*/
+
+        //visualizzaNote();
+
+        function elimina(id)
+        {
+            console.log("eliminazione id" + id);
+            fetch("http://localhost:8080/recensioni/" + id + "/delete",
+            {
+                method: 'DELETE'
+            })
+            .then(visualizzaRecensioniDiv());
         }
 
-    </script>
+      </script>
 </body>
 
 </html>

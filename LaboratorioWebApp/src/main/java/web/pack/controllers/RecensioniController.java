@@ -29,7 +29,7 @@ public class RecensioniController {
 	}
 
     @GetMapping("/recensioni/{recensioniId}")
-	Optional<Recensioni> getNotes(@PathVariable Long recensioniId)
+	Optional<Recensioni> getRecensioni(@PathVariable Long recensioniId)
 	{
 //		Optional<recensioni> opt = recensioniRepository.findById(recensioniId);
 //		
@@ -39,7 +39,7 @@ public class RecensioniController {
 	}
 
     //CREATE
-	@PostMapping("/recensioni/add")
+	@PostMapping("/recensioni")
 	Recensioni createRecensioni(@RequestBody Recensioni newRecensioni)
 	{
 		return recensioniRepository.save(newRecensioni);

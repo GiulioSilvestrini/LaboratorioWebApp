@@ -12,17 +12,18 @@ public class Recensioni {
 	
 	private String title;
 	private String content;
-    private int like;
+    private int numlike;
 
 	public Recensioni() {
 		super();
 	}
 
-	public Recensioni(String title, String content, int like) {
+	public Recensioni(Long id, String title, String content, int numlike) {
 		super();
+		this.id = id;
 		this.title = title;
 		this.content = content;
-		this.like = like;
+		this.numlike = numlike;
 	}
 
 	public Long getId() {
@@ -50,10 +51,10 @@ public class Recensioni {
 	}
 
 	public int getLike() {
-		return like;
+		return numlike;
 	}
 
-	public void setLike(int like) {
-		this.like = like;
+	public void setLike(int numlike) {
+		this.numlike = numlike;
 	}
 }
