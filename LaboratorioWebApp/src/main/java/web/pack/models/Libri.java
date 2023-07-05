@@ -1,11 +1,11 @@
-package web.pack;
+package web.pack.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 @Entity
-public class Post {
+public class Libri {
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -14,11 +14,11 @@ public class Post {
 	private String content;
     private int like;
 
-	public Post() {
+	public Libri() {
 		super();
 	}
 
-	public Post(String title, String content, int like) {
+	public Libri(String title, String content, int like) {
 		super();
 		this.title = title;
 		this.content = content;
@@ -49,7 +49,7 @@ public class Post {
 		this.content = content;
 	}
 
-	public String getLike() {
+	public int getLike() {
 		return like;
 	}
 

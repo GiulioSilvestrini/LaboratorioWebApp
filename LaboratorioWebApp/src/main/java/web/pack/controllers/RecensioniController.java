@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import web.pack.models.Recensioni;
+import web.pack.repositories.RecensioniRepository;
+
 @RestController
 public class RecensioniController {
 
@@ -26,7 +29,7 @@ public class RecensioniController {
 	}
 
     @GetMapping("/recensioni/{recensioniId}")
-	Optional<recensioni> getNotes(@PathVariable Long recensioniId)
+	Optional<Recensioni> getNotes(@PathVariable Long recensioniId)
 	{
 //		Optional<recensioni> opt = recensioniRepository.findById(recensioniId);
 //		
